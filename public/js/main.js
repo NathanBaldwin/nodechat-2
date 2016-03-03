@@ -12,7 +12,7 @@
 
   ws.on('receiveChat', msg => {
     console.log("received chat");
-    displayChat(msg.name, msg.text);
+    displayChat(msg);
   })
 
   const form = document.querySelector('form')//returns first of element it sees as object. querySelectorAll would return a nodelist object
@@ -23,24 +23,20 @@
   //look up node lists!!
 
   form.addEventListener('submit', () => {
-    const[n, t] = [name.value, text.value];
+    const chat = {
+      name: name.value, 
+      text: text.value
+    }
 
-    ws.emit('sendChat', {
-      name: n,
-      text: t
-    })
-    console.log(name.value, text.value);
-    displayChat(n, t);
-    // ws.emit('sendChat', {
-    //   name: name.value, text: text.value
-    // })
+    ws.emit('sendChat', chat)
+    displayChat(chat)
     text.value = '';
-
+    console.log(name.value, text.value);
     event.preventDefault();
   })
 
   function displayChat (name, text) {
-    const li = generateLI(name, text); //this actually touches the DOM
+    const li = generateLI(chat.name, chat.text); //this actually touches the DOM
 
     ul.appendChild(li);
     // debugger;
@@ -54,5 +50,22 @@
     li.appendChild(textNode);
     return li;
   }
+
+  function getJson (url, cb) {
+    const request = new XMLHttpRequest()
+    request.open('GET', url)//sets open variable to do get request to url
+
+    request.onload = () => {
+      cb(JSON.parse(request.responseText));
+    }
+
+    request.send()
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    getJSON('/chats', chats => {
+      chats.forEach(displayChat)
+    })
+  })
 
 }());
