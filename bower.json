@@ -1,0 +1,21 @@
+{
+  "name": "nodechat-2",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Nathan Baldwin <nathansbaldwin@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/NathanBaldwin/nodechat-2",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "socket.io-client": "^1.4.5"
+  }
+}
